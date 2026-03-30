@@ -348,6 +348,7 @@ let closeTab = (id) => {
     }
 };
 
+let syncDebounceTimer = null;
 let saveCurrentDoc = () => {
     const content = editor.getValue();
     const docIndex = documents.findIndex(d => d.id === activeDocId);
@@ -367,6 +368,14 @@ let saveCurrentDoc = () => {
         saveDocsToStorage();
         renderTabs(); // Refresh titles
         showAutosaveIndicator();
+
+        // Trigger cloud sync if connected
+        clearTimeout(syncDebounceTimer);
+        syncDebounceTimer = setTimeout(() => {
+            import('./services/storage/SyncManager.js').then(({ syncManager }) => {
+                syncManager.uploadAll(documents[docIndex]);
+            });
+        }, 3000); // 3 second debounce
     }
 };
 
@@ -5309,6 +5318,18 @@ const initializeApp = () => {
     initDarkMode(darkModeSettings);
 
     setupSettingsModal();
+
+    // Setup Sync Settings from new module
+    import('./ui/index.js').then(({ settingsModal }) => {
+        const syncSettingsBtn = document.querySelector('#sync-settings-btn');
+        if (syncSettingsBtn) {
+            syncSettingsBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                settingsModal.open();
+            });
+        }
+    });
+
     setupDivider();
     setupMobileUI();
     setupExportModal();
