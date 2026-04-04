@@ -170,6 +170,12 @@ export const EVENTS = {
     // Keyboard shortcuts
     SHORTCUT_TRIGGERED: 'shortcut:triggered',
 
+    // Cloud Sync events
+    SYNC_STATUS_CHANGED: 'sync:status-changed',
+    SYNC_STARTED: 'sync:started',
+    SYNC_COMPLETE: 'sync:complete',
+    SYNC_ERROR: 'sync:error',
+
     // AI Writer events
     AI_PANEL_TOGGLED: 'ai:panel-toggled',
     AI_GENERATION_STARTED: 'ai:generation-started',

@@ -56,6 +56,7 @@
 - **📋 Table of Contents** — Auto-generated navigation
 - **🔍 Linting** — Markdown best practices checking
 - **💾 Auto-Save** — Never lose your work
+- **☁️ Cloud Sync** — Automatically back up notes to Google Drive, GitHub, or GitLab
 - **📱 PWA Support** — Install as desktop/mobile app
 
 ---
@@ -90,6 +91,25 @@ npm run dev
 ```
 
 Open [http://localhost:5173](http://localhost:5173) in your browser.
+
+### Cloud Sync Setup
+
+Markups supports syncing to Google Drive, GitHub, and GitLab. Since the app is a static frontend, authentication is handled client-side:
+
+**Google Drive**
+1. Go to the [Google Cloud Console](https://console.cloud.google.com/)
+2. Create a new project and enable the **Google Drive API**
+3. Create an **OAuth 2.0 Client ID** (Web application type)
+4. Add your application URLs to the "Authorized JavaScript origins" list
+5. Create a `.env.local` file in your project root:
+   ```env
+   VITE_GOOGLE_CLIENT_ID=your_client_id_here
+   ```
+
+**GitHub & GitLab**
+By default, the app uses Personal Access Tokens (PATs) for Git providers. Users simply generate a PAT in their GitHub/GitLab settings and paste it into the "Sync Settings" modal within the app.
+
+*Want a true 1-click single sign-on experience for GitHub/GitLab?* Check out our guide in `docs/oauth-proxy-worker.md` to deploy a free, serverless OAuth proxy.
 
 ---
 

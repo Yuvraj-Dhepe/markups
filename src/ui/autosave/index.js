@@ -47,6 +47,35 @@ class AutosaveIndicator {
         // Subscribe to save events
         eventBus.on(EVENTS.DOCUMENT_SAVING, () => this.showSaving());
         eventBus.on(EVENTS.DOCUMENT_SAVED, () => this.showSaved());
+
+        // Subscribe to sync events
+        eventBus.on(EVENTS.SYNC_STARTED, () => this.showSyncing());
+        eventBus.on(EVENTS.SYNC_COMPLETE, () => this.showSynced());
+        eventBus.on(EVENTS.SYNC_ERROR, () => this.showError('Cloud sync failed'));
+    }
+
+    /**
+     * Show syncing state
+     */
+    showSyncing() {
+        if (!this.element) return;
+        if (this.timeout) clearTimeout(this.timeout);
+        this.element.textContent = '☁️ Syncing...';
+        this.element.classList.add('saving');
+    }
+
+    /**
+     * Show synced state
+     */
+    showSynced() {
+        if (!this.element) return;
+        this.element.textContent = '☁️ Saved to Cloud';
+        this.element.classList.remove('saving');
+        this.element.classList.add('saved');
+        this.timeout = setTimeout(() => {
+            this.element.textContent = '';
+            this.element.classList.remove('saved');
+        }, 3000);
     }
 
     /**

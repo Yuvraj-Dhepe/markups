@@ -5,7 +5,7 @@
  */
 
 import { eventBus, EVENTS } from '../../utils/eventBus.js';
-import { storageService } from '../../core/storage/index.js';
+import { storage } from '../../core/storage/index.js';
 import { STORAGE_KEYS } from '../../core/storage/keys.js';
 
 /**
@@ -79,7 +79,7 @@ class ThemeManager {
      */
     initialize() {
         // Get saved theme preference
-        const savedTheme = storageService.get(STORAGE_KEYS.APP_THEME);
+        const savedTheme = storage.get(STORAGE_KEYS.APP_THEME);
         this.currentTheme = savedTheme || THEMES.SYSTEM;
 
         // Setup system theme detection
@@ -151,7 +151,7 @@ class ThemeManager {
         }
 
         this.currentTheme = theme;
-        storageService.set(STORAGE_KEYS.APP_THEME, theme);
+        storage.set(STORAGE_KEYS.APP_THEME, theme);
         this._applyTheme();
     }
     /**
@@ -216,7 +216,7 @@ class ThemeManager {
 // Export singleton instance
 export const themeManager = new ThemeManager();
 
-// Export class and constants
-export { ThemeManager, THEMES };
+// Export class
+export { ThemeManager };
 
 export default themeManager;
